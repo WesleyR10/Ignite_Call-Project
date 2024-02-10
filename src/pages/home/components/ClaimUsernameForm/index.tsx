@@ -38,7 +38,7 @@ export function ClaimUsernameForm() {
           size="sm"
           prefix="ignite.com/"
           placeholder="seu-usuário"
-          crossOrigin="anonymous"
+          crossOrigin=""
           {...register('username')}
         />
         <Button size="sm" type="submit">
@@ -48,7 +48,7 @@ export function ClaimUsernameForm() {
       </Form>
 
       <FormAnnotation>
-        <Text size="sm">
+        <Text size="sm" style={{ color: errors.username ? '#f44e3f' : '' }}>
           {errors.username
             ? errors.username.message
             : 'Digite o nome do usuário desejado'}
