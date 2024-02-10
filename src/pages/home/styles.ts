@@ -13,13 +13,15 @@ export const Hero = styled('div', {
   maxWidth: 480,
   padding: '0 $10',
 
-  [`${Heading}`]: {
+  // Somente a filhos desse componente e pagina e nao de imports
+  [`>${Heading}`]: {
     '@media(max-width: 600px)': {
       fontSize: '$6xl',
     },
   },
 
-  [`${Text}`]: {
+  // Somente a filhos desse componente e pagina e nao de imports
+  [`>${Text}`]: {
     maskType: '$2',
     color: '$gray200',
   },
