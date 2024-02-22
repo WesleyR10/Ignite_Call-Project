@@ -12,6 +12,7 @@ import { Container, Header } from '../styles'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { convertTimeStringToMinutes } from '../../../utils/convert-time-string-to-minutes'
 import { z } from 'zod'
+import { api } from '../../../lib/axios'
 import { getWeekDays } from '../../../utils/get-week-days'
 import {
   FormError,
@@ -96,9 +97,11 @@ export default function TimeIntervals() {
   const intervals = watch('intervals') // Vem de dentro do useForm para assistir as mudanças do form
 
   async function handleSetTimeIntervals(data: any) {
-    const formData = data as TimeIntervalsFormOutput
+    const { intervals } = data as TimeIntervalsFormOutput
 
-    console.log(formData)
+    await api.post('/users/time-intervals', {
+      intervals,
+    })
   }
 
   return (
