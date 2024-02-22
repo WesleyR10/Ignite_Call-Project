@@ -41,6 +41,14 @@ export function buildNextAuthOptions(
 
         return true // Se ele tiver a autorização, ele segue para a próxima etapa
       },
+
+      async session({ session, user }) {
+        // Retornando tudo de dentro de session e user para pegar img e dados do usuário
+        return {
+          ...session,
+          user,
+        }
+      },
     },
   }
 }
