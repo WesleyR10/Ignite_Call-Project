@@ -7,6 +7,7 @@ import {
   Text,
   TextInput,
 } from '@ignite-ui/react'
+import { useRouter } from 'next/router'
 import { ArrowRight } from 'phosphor-react'
 import { Container, Header } from '../styles'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
@@ -86,6 +87,7 @@ export default function TimeIntervals() {
       ],
     },
   })
+  const router = useRouter()
 
   const weekDays = getWeekDays() // Utils criado para pegar os dias da semana
 
@@ -102,6 +104,7 @@ export default function TimeIntervals() {
     await api.post('/users/time-intervals', {
       intervals,
     })
+    await router.push('/register/update-profile')
   }
 
   return (
