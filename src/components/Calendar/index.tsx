@@ -26,6 +26,7 @@ type CalendarWeeks = CalendarWeek[]
 
 interface BlockedDates {
   blockedWeekDays: number[]
+  blockedDates: number[]
 }
 
 interface CalendarProps {
@@ -66,7 +67,7 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
       const response = await api.get(`/users/${username}/blocked-dates`, {
         params: {
           year: currentDate.get('year'),
-          month: currentDate.get('month'),
+          month: currentDate.get('month') + 1,
         },
       })
 
@@ -79,6 +80,9 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
     if (!blockedDates) {
       return []
     }
+
+    console.log('calendarWeeks ~ blockedDates', blockedDates)
+
     const daysInMonthArray = Array.from({
       length: currentDate.daysInMonth(), // daysInMonth() retorna o número de dias do mês
     }).map((_, i) => {
@@ -116,7 +120,9 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
           date,
           disabled:
             date.endOf('day').isBefore(new Date()) || // Verificando se o dia já passou - endOf('day') retorna o final do dia - isBefore() verifica se a data é antes da data passada
-            blockedDates.blockedWeekDays.includes(date.get('day')),} // Verificando se o dia da semana está disponível para atendimento
+            blockedDates.blockedWeekDays.includes(date.get('day')) || // Verificando se o dia da semana está disponível para atendimento
+            blockedDates.blockedDates.includes(date.get('date')),
+          } 
         }),
         ...nextMonthFillArray.map((date) => {
           return { date, disabled: true }
