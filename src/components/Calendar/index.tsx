@@ -60,7 +60,7 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
 
   const username = String(router.query.username)
 
-  const { data: blockedDates } = useQuery<BlockedDates>({
+  const { data: blockedDates } = useQuery<BlockedDates>({ // Chamada que bloqueia os dias da semana
     queryKey: ['blocked-dates', currentDate.get('year'), currentDate.get('month')],
     queryFn: async () => {
       const response = await api.get(`/users/${username}/blocked-dates`, {
@@ -76,6 +76,9 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
 
   // Referente aos dias da semana 
   const calendarWeeks = useMemo(() => { // useMemo é utilizado para evitar que a função seja executada toda vez que o componente for renderizado
+    if (!blockedDates) {
+      return []
+    }
     const daysInMonthArray = Array.from({
       length: currentDate.daysInMonth(), // daysInMonth() retorna o número de dias do mês
     }).map((_, i) => {
@@ -112,8 +115,8 @@ export function Calendar({ selectedDate, onDateSelected }: CalendarProps) {
           return {
           date,
           disabled:
-            date.endOf('day').isBefore(new Date()) ||
-            blockedDates?.blockedWeekDays.includes(date.get('day')),} // Verificando se o dia já passou - endOf('day') retorna o final do dia - isBefore() verifica se a data é antes da data passada
+            date.endOf('day').isBefore(new Date()) || // Verificando se o dia já passou - endOf('day') retorna o final do dia - isBefore() verifica se a data é antes da data passada
+            blockedDates.blockedWeekDays.includes(date.get('day')),} // Verificando se o dia da semana está disponível para atendimento
         }),
         ...nextMonthFillArray.map((date) => {
           return { date, disabled: true }
