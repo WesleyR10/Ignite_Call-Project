@@ -1,6 +1,8 @@
 import { Calendar } from '../../../../../components/Calendar'
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { api } from '../../../../../lib/axios'
 import {
   Container,
   TimePicker,
@@ -11,7 +13,12 @@ import {
 
 export function CalendarStep() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [availability, setAvailability] = useState(null)
+
+  const router = useRouter()
+
   const isDateSelected = !!selectedDate // Aqui é utilizado para verificar se a data foi selecionada habilitando o TimePicker
+  const username = String(router.query.username)
 
   // Mostrar somente se o dia da semana estiver selecionado (SelectedDate) - Responsável por mostrar dia por escrito
   const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null 
@@ -19,6 +26,22 @@ export function CalendarStep() {
     ? dayjs(selectedDate).format('DD[ de ]MMMM')
     : null
 
+    useEffect(() => {
+      if (!selectedDate) {
+        return
+      }
+  
+      api
+        .get(`/users/${username}/availability`, {
+          params: {
+            date: dayjs(selectedDate).format('YYYY-MM-DD'),
+          },
+        })
+        .then((response) => {
+          console.log(response.data)
+        })
+    }, [selectedDate, username])
+    
   return (
     <Container isTimePickerOpen={isDateSelected}>
       <Calendar selectedDate={selectedDate} onDateSelected={setSelectedDate} />
