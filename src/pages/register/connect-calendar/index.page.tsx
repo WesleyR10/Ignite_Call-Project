@@ -24,7 +24,7 @@ export default function ConnectCalendar() {
 
   return (
     <>
-      <NextSeo title="Conecte sua agenda do Google | Ignite Call" noindex /> // Adicionamos o noindex para que o Google não indexe essa página
+      <NextSeo title="Conecte sua agenda do Google | Ignite Call" noindex /> 
 
       <Container>
         <Header>
