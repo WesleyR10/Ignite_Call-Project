@@ -5,7 +5,6 @@
   ],
   "rules": {
     "rules": {
-      "@typescript-eslint/no-explicit-any": "error",
       "camelcase": "off"
   }
 }
